@@ -4,6 +4,16 @@ import io.restassured.response.Response;
 import model.user.User;
 
 import static io.restassured.RestAssured.given;
+/**
+ * Post - ~ Creates list of users with given input array
+ * Get - done (getUser)
+ * Put - done (updateUser)
+ * Delete - done (deleteUser)
+ * Get -  ~ login into system
+ * Get - ~ Logs out current logged i user session
+ * Post - ~ Creates list of users with given input array
+ * Post -  done (createUser)
+ * */
 
 public class UserClient extends HttpClient {
 
@@ -32,4 +42,20 @@ public class UserClient extends HttpClient {
         return given(defaultRequestSpecification)
                 .delete("/{username}", username);
     }
+    public Response loginUser(String username, String password){
+        return given(defaultRequestSpecification)
+                .pathParam("username", username)
+                .pathParam("password", password)
+                .get("/login?username={username}&password={password}");
+    }
+
+    public Response LogoutUser(){
+        return given(defaultRequestSpecification)
+                .get("/logout");
+    }
+
+
+
+
+
 }

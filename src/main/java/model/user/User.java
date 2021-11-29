@@ -2,8 +2,7 @@ package model.user;
 
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,5 +14,26 @@ public class User {
     private String email;
     private String password;
     private String phone;
-    private String userStatus;
+    private int userStatus;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+
+        return firstName.equals(user.getFirstName())
+                && lastName.equals(user.getLastName())
+                && password.equals(user.getPassword())
+                && userStatus == user.getUserStatus()
+                && phone.equals(user.getPhone())
+                && id == user.getId()
+                && email.equals(user.getEmail())
+                && username.equals(user.getUsername());
+
+    }
 }

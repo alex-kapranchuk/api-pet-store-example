@@ -15,7 +15,7 @@ public class UserRepository {
                 .lastName(RandomStringUtils.randomAlphabetic(5))
                 .id(Integer.parseInt(RandomStringUtils.randomNumeric(6)))
                 .phone(RandomStringUtils.randomNumeric(10))
-                .userStatus("1")
+                .userStatus(1)
                 .password(RandomStringUtils.randomAlphabetic(5))
                 .build();
     }
