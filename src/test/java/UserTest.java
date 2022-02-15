@@ -82,5 +82,4 @@ public class UserTest {
     public void createUsersFromArrayTest(){
      userBL.createUsersFromArray(3);
     }
-
 }

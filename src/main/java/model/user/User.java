@@ -1,5 +1,4 @@
 package model.user;
-
 import lombok.*;
 
 @Data
@@ -34,6 +33,5 @@ public class User {
                 && id == user.getId()
                 && email.equals(user.getEmail())
                 && username.equals(user.getUsername());
-
     }
 }
