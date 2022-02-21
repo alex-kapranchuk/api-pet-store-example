@@ -21,7 +21,7 @@ public class HttpClient {
                 .encoderConfig(encoderConfig().appendDefaultContentCharsetToContentTypeIfUndefined(false));
         defaultRequestSpecification = new RequestSpecBuilder()
                 .setConfig(config)
-                .addHeader("api_key", "252525")
+                .addHeader("api_key", "252525") // - token authorization -- підставляти динамічно
                 .setBaseUri("https://petstore.swagger.io/v2/")
                 .setBasePath(pathUrl)
                 .setContentType(ContentType.JSON)

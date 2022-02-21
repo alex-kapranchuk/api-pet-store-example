@@ -76,8 +76,8 @@ public class UserTest {
     @Test
     public void createUsersFromListTest(){
         userBL.createUsersFromList(3);
-
     }
+
     @Test
     public void createUsersFromArrayTest(){
      userBL.createUsersFromArray(3);
