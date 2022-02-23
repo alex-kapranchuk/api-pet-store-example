@@ -1,48 +1,62 @@
-import business.user.PetBL;
-import io.restassured.response.Response;
-import model.user.Pet;
-import model.user.User;
-import org.apache.commons.lang3.RandomStringUtils;
+import builders.PetCreateBuilders;
+import business.PetBL;
+import model.PetModel;
 import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import repository.PetRepository;
-import repository.UserRepository;
 
 
 public class PetTest {
-    private Pet pet;
+    private PetModel petModel;
     private PetBL petBL;
 
-    @BeforeTest
+    @BeforeClass
     public void setUp() {
-        pet = new Pet();
+        petModel = new PetCreateBuilders().createPet();
         petBL = new PetBL();
-        pet = PetRepository.getValidPet();
     }
+
     @Test
     public void addNewPetToStoryTest(){
         /**Create test*/
-        petBL.addNewPetToStory(pet);
+        petBL.addNewPetToStory(petModel);
 
     }
     @Test
     public void findPetById(){
         /** Find pet by id test */
-        petBL.addNewPetToStory(pet);
-        Pet petFromResponse = petBL.getPet(pet.getId()); // crate get name from pet
-        Assert.assertEquals(pet.getName(), petFromResponse.getName(), "Error - pet name from response is not found");
+        petBL.addNewPetToStory(petModel);
+        PetModel petModelFromResponse = petBL.getPet(petModel.getId()); // crate get name from pet
+        Assert.assertEquals(petModel.getName(), petModelFromResponse.getName(), "Error - pet name from response is not found");
     }
     @Test
     public void updatePet() throws InterruptedException {
         /** Update an existing pet  */
-        petBL.addNewPetToStory(pet);
-        petBL.updatePet(petBL.updateDataOfPet(pet));
-        Pet updatedPet = petBL.getPet(pet.getId());
-        Assert.assertEquals(pet.getId(), updatedPet.getId(), "Error - user id is different");
-        Assert.assertNotEquals(pet.getName(),updatedPet.getName(), "Error - names are not different");
-        petBL.deletePet(pet.getId(), pet);
+        petBL.addNewPetToStory(petModel);
+        petBL.updatePet(petBL.updateDataOfPet(petModel));
+        PetModel updatedPetModel = petBL.getPet(petModel.getId());
+        Assert.assertEquals(petModel.getId(), updatedPetModel.getId(), "Error - user id is different");
+        Assert.assertNotEquals(petModel.getName(), updatedPetModel.getName(), "Error - names are not different");
+        petBL.deletePet(petModel.getId(), petModel);
         // add negative test where we get some pet from invalid deleted id
     }
-
+    @Test
+    public void deletePet(){
+        petBL.addNewPetToStory(petModel);
+        petBL.deletePet(petModel.getId(), petModel);
+        //create list with all pets id
+        // check list to equal with deleted pet
+    }
+    @Test
+    public void findPetByStatus(){
+     petBL.getPetByStatus("pending");
+     // create list of pets with this parameters
+    }
+    @Ignore
+    @Test
+    public void uploadImagePet(){
+        petBL.addNewPetToStory(petModel);
+        petBL.uploadImageTest(petModel);
+    }
 }

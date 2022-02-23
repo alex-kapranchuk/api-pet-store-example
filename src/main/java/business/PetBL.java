@@ -1,10 +1,9 @@
-package business.user;
+package business;
 
 import client.PetClient;
 import io.restassured.response.Response;
 
-import model.user.Pet;
-import model.user.User;
+import model.PetModel;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 
@@ -19,12 +18,12 @@ public class PetBL {
         this.petClient = new PetClient();
     }
 
-    public void addNewPetToStory(Pet pet) {
-        Response response = petClient.createPetToStory(pet);
+    public void addNewPetToStory(PetModel petModel) {
+        Response response = petClient.createPetToStory(petModel);
         Assert.assertEquals(response.getStatusCode(), 200, "Error - status code is not correct");
     }
 
-    public Pet getPet(int petID) {
+    public PetModel getPet(int petID) {
         Response response = petClient.getPet(petID);
         /** wait response */
 //        int countOfIterations = 0;
@@ -38,14 +37,14 @@ public class PetBL {
 //            }
 //        }
         Assert.assertEquals(response.getStatusCode(), 200, "Error - status code is not correct");
-        return response.as(Pet.class);
+        return response.as(PetModel.class);
     }
 
     /**
      * to update
      */
-    public Pet updateDataOfPet(Pet pet) {
-        pet.setName(RandomStringUtils.randomAlphabetic(7));
+    public PetModel updateDataOfPet(PetModel petModel) {
+        petModel.setName(RandomStringUtils.randomAlphabetic(7));
         /** wait response */
 //        Response response = petClient.getPet(pet.getId());
 //        int countOfIterations = 0;
@@ -59,18 +58,26 @@ public class PetBL {
 //            }
 //        }
 //        pet.setName("updatedPetTestName");
-        return pet;
+        return petModel;
 
     }
 
-    public void updatePet(Pet pet) {
-        Response response = petClient.updatePet(pet);
+    public void updatePet(PetModel petModel) {
+        Response response = petClient.updatePet(petModel);
         Assert.assertEquals(response.getStatusCode(), 200, "Error - status code is not correct");
     }
 
-    public void deletePet(int id, Pet pet) {
+    public void deletePet(int id, PetModel petModel) {
         Response response = petClient.deletePet(id);
         Assert.assertEquals(response.getStatusCode(), 200, "Error - status code is not correct");
+    }
+    public void getPetByStatus(String PetStatus){
+        Response response = petClient.findPetByStatus(PetStatus);
+        Assert.assertEquals(response.getStatusCode(),200,"Error - status code is not correct");
+    }
+    public void uploadImageTest(PetModel petModel){
+        Response response = petClient.uploadImage(petModel.getId());
+        Assert.assertEquals(response.getStatusCode(),200,"Error - status code is not correct");
     }
 
 }

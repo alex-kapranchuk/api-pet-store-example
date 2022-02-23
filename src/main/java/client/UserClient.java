@@ -1,7 +1,7 @@
 package client;
 
 import io.restassured.response.Response;
-import model.user.User;
+import model.UserModel;
 
 import static io.restassured.RestAssured.given;
 
@@ -11,9 +11,9 @@ public class UserClient extends HttpClient {
         super("user");
     }
 
-    public Response createUser(User user) {
+    public Response createUser(UserModel userModel) {
         return given(defaultRequestSpecification)
-                .body(user)
+                .body(userModel)
                 .post();
     }
 
@@ -22,9 +22,9 @@ public class UserClient extends HttpClient {
                 .get("/{username}", username);
     }
 
-    public Response updateUser(String username, User user) {
+    public Response updateUser(String username, UserModel userModel) {
         return given(defaultRequestSpecification)
-                .body(user)
+                .body(userModel)
                 .put("/{username}", username);
     }
 

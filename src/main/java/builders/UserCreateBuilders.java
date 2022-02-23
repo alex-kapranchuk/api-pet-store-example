@@ -1,6 +1,6 @@
 package builders;
 
-import model.user.User;
+import model.UserModel;
 import org.apache.commons.lang3.RandomStringUtils;
 
 public class UserCreateBuilders {
@@ -21,8 +21,8 @@ public class UserCreateBuilders {
         return stringBuilder.toString();
     }
 
-    public User createUser() {
-        return User.builder()
+    public UserModel createUser() {
+        return UserModel.builder()
                 .firstName(userFirstName)
                 .lastName(userLastName)
                 .password(password)

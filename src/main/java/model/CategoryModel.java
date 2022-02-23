@@ -1,4 +1,4 @@
-package model.user;
+package model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class Category {
+public class CategoryModel {
     @JsonProperty("id")
     private int id;
     @JsonProperty("name")

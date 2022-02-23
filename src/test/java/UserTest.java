@@ -1,77 +1,74 @@
-import business.user.UserBL;
-import client.UserClient;
-import io.restassured.response.Response;
-import model.user.User;
+import business.UserBL;
+import model.UserModel;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import repository.UserRepository;
 
 public class UserTest {
 
-    private User user;
+    private UserModel userModel;
     private UserBL userBL;
 
     @BeforeTest
     public void setUp() {
-        user = new User();
+        userModel = new UserModel();
         userBL = new UserBL();
     }
 
     @Test
     public void userCreationUpdateAndDeleteTest() {
         /**Set up */
-        user = UserRepository.getValidUser();
+        userModel = UserRepository.getValidUser();
 
         /**Create test*/
-        userBL.createNewUser(user);
-        User userFromResponse = userBL.getUser(user.getUsername());
-        Assert.assertEquals(user.getId(), userFromResponse.getId(), "Error - user id from response is invalid");
+        userBL.createNewUser(userModel);
+        UserModel userModelFromResponse = userBL.getUser(userModel.getUsername());
+        Assert.assertEquals(userModel.getId(), userModelFromResponse.getId(), "Error - user id from response is invalid");
 
         /** update test */
-        String usernameOfUserToUpdate = user.getUsername();
-        user.setUsername(RandomStringUtils.randomAlphabetic(7));
-        userBL.updateUser(usernameOfUserToUpdate, user);
+        String usernameOfUserToUpdate = userModel.getUsername();
+        userModel.setUsername(RandomStringUtils.randomAlphabetic(7));
+        userBL.updateUser(usernameOfUserToUpdate, userModel);
 
-        User updatedUser = userBL.getUser(user.getUsername());
-        Assert.assertEquals(user.getId(), updatedUser.getId(), "Error - user id from response is invalid");
+        UserModel updatedUserModel = userBL.getUser(userModel.getUsername());
+        Assert.assertEquals(userModel.getId(), updatedUserModel.getId(), "Error - user id from response is invalid");
 
         /**delete updated user */
-        userBL.deleteUser(updatedUser.getUsername(),user);
+        userBL.deleteUser(updatedUserModel.getUsername(), userModel);
     }
 
     @Test
     public void loginLogoutUserTest(){
-        user = UserRepository.getValidUser();
+        userModel = UserRepository.getValidUser();
         /** set up */
-        userBL.createNewUser(user);
-        userBL.getLogin(user);
+        userBL.createNewUser(userModel);
+        userBL.getLogin(userModel);
         userBL.getLogout();
-        userBL.deleteUser(user.getUsername(),user);
+        userBL.deleteUser(userModel.getUsername(), userModel);
     }
 
     @Test
     public void updateUserTest(){
-        user = UserRepository.getValidUser();
+        userModel = UserRepository.getValidUser();
         /** set up */
-        userBL.createNewUser(user);
+        userBL.createNewUser(userModel);
         /** update test */
-        String usernameOfUserToUpdate = user.getUsername();
-        user.setUsername(RandomStringUtils.randomAlphabetic(7));
-        userBL.updateUser(usernameOfUserToUpdate, user);
-        User updatedUser = userBL.getUser(user.getUsername());
-        Assert.assertEquals(user.getId(), updatedUser.getId(), "Error - user id from response is invalid");
+        String usernameOfUserToUpdate = userModel.getUsername();
+        userModel.setUsername(RandomStringUtils.randomAlphabetic(7));
+        userBL.updateUser(usernameOfUserToUpdate, userModel);
+        UserModel updatedUserModel = userBL.getUser(userModel.getUsername());
+        Assert.assertEquals(userModel.getId(), updatedUserModel.getId(), "Error - user id from response is invalid");
         /**delete updated user */
-        userBL.deleteUser(updatedUser.getUsername(),user);
+        userBL.deleteUser(updatedUserModel.getUsername(), userModel);
     }
 
     @Test
     public void deleteUserTest(){
-        user = UserRepository.getValidUser();
-        userBL.createNewUser(user);
-        userBL.deleteUser(user.getUsername(),user);
+        userModel = UserRepository.getValidUser();
+        userBL.createNewUser(userModel);
+        userBL.deleteUser(userModel.getUsername(), userModel);
     }
     @Test
     public void createUsersFromListTest(){

@@ -1,7 +1,9 @@
 package client;
 
 import io.restassured.response.Response;
-import model.user.Pet;
+import model.PetModel;
+
+import java.io.File;
 
 import static io.restassured.RestAssured.given;
 
@@ -10,18 +12,18 @@ public class PetClient extends HttpClient{
     public PetClient(){
         super("pet");}
 
-    public Response createPetToStory(Pet pet) {
+    public Response createPetToStory(PetModel petModel) {
         return given(defaultRequestSpecification)
-                .body(pet)
+                .body(petModel)
                 .post();
     }
     public Response getPet(int id) {
         return given(defaultRequestSpecification)
                 .get("/{petId}", id);
     }
-    public Response updatePet(Pet pet){
+    public Response updatePet(PetModel petModel){
         return given(defaultRequestSpecification)
-                .body(pet)
+                .body(petModel)
                 .put();
     }
     public Response deletePet(int id){
@@ -30,6 +32,13 @@ public class PetClient extends HttpClient{
     }
     public Response findPetByStatus(String value){
         return given(defaultRequestSpecification)
-                .get("/findByStatus",value);
+                .get("findByStatus?status=" + value);
+    }
+    public Response uploadImage(int id){
+        return given(defaultRequestSpecification)
+                .pathParams("id", id )
+                .contentType("multipart/from-data")
+                .multiPart(new File("/Users/okapranchuk/Desktop/pic.png"))
+                .post("/{id}/uploadImage");
     }
 }
