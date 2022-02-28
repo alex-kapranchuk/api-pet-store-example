@@ -15,34 +15,16 @@ public class UserTest {
     public void setUp() {
         userModel = new UserModel();
         userBL = new UserBL();
+        userModel = UserRepository.getValidUser();
     }
 
     @Test
     public void userCreationUpdateAndDeleteTest() {
-        /**Set up */
-        userModel = UserRepository.getValidUser();
-
-        /**Create test*/
         userBL.createNewUser(userModel);
-        UserModel userModelFromResponse = userBL.getUser(userModel.getUsername());
-        Assert.assertEquals(userModel.getId(), userModelFromResponse.getId(), "Error - user id from response is invalid");
-
-        /** update test */
-        String usernameOfUserToUpdate = userModel.getUsername();
-        userModel.setUsername(RandomStringUtils.randomAlphabetic(7));
-        userBL.updateUser(usernameOfUserToUpdate, userModel);
-
-        UserModel updatedUserModel = userBL.getUser(userModel.getUsername());
-        Assert.assertEquals(userModel.getId(), updatedUserModel.getId(), "Error - user id from response is invalid");
-
-        /**delete updated user */
-        userBL.deleteUser(updatedUserModel.getUsername(), userModel);
     }
 
     @Test
     public void loginLogoutUserTest(){
-        userModel = UserRepository.getValidUser();
-        /** set up */
         userBL.createNewUser(userModel);
         userBL.getLogin(userModel);
         userBL.getLogout();
@@ -51,8 +33,6 @@ public class UserTest {
 
     @Test
     public void updateUserTest(){
-        userModel = UserRepository.getValidUser();
-        /** set up */
         userBL.createNewUser(userModel);
         /** update test */
         String usernameOfUserToUpdate = userModel.getUsername();
@@ -66,7 +46,6 @@ public class UserTest {
 
     @Test
     public void deleteUserTest(){
-        userModel = UserRepository.getValidUser();
         userBL.createNewUser(userModel);
         userBL.deleteUser(userModel.getUsername(), userModel);
     }

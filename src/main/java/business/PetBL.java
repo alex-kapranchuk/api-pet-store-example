@@ -28,7 +28,7 @@ public class PetBL {
         Response response = petClient.createPetToStory(petModel);
         Assert.assertEquals(response.getStatusCode(), 200, "Error - status code is not correct");
     }
-    // get id
+    /** get id */
     /*public void allPets(PetModel petModel){
         Response response = petClient.getPet(petModel.getId());
         ArrayList<Integer> arrayListOfId = new ArrayList<>();
@@ -72,7 +72,6 @@ public class PetBL {
 //        }
 //        pet.setName("updatedPetTestName");
         return petModel;
-
     }
 
     public void updatePet(PetModel petModel) {
@@ -84,10 +83,8 @@ public class PetBL {
         Response response = petClient.deletePet(id);
 
         Assert.assertEquals(response.getStatusCode(), 404, "Error - status code is not correct");
-//        Assert.assertNull(response.jsonPath(JsonPathConfig.jsonPathConfig()));
-
+//      Assert.assertNull(response.jsonPath(JsonPathConfig.jsonPathConfig()));
     }
-
 
     public void getPetByStatus(String PetStatus){
         Response response = petClient.findPetByStatus(PetStatus);
@@ -98,5 +95,4 @@ public class PetBL {
         Response response = petClient.uploadImage(petModel.getId());
         Assert.assertEquals(response.getStatusCode(),200,"Error - status code is not correct");
     }
-
 }
