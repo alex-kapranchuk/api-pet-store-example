@@ -1,11 +1,15 @@
 package business;
 
 import client.PetClient;
+import io.restassured.path.json.config.JsonPathConfig;
 import io.restassured.response.Response;
 
 import model.PetModel;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 import static io.restassured.RestAssured.given;
 
@@ -18,10 +22,19 @@ public class PetBL {
         this.petClient = new PetClient();
     }
 
+
+
     public void addNewPetToStory(PetModel petModel) {
         Response response = petClient.createPetToStory(petModel);
         Assert.assertEquals(response.getStatusCode(), 200, "Error - status code is not correct");
     }
+    // get id
+    /*public void allPets(PetModel petModel){
+        Response response = petClient.getPet(petModel.getId());
+        ArrayList<Integer> arrayListOfId = new ArrayList<>();
+        Collections.addAll(arrayListOfId,response.getBody().as(PetModel.class).getId());
+        arrayListOfId.forEach(System.out::println);
+    }*/
 
     public PetModel getPet(int petID) {
         Response response = petClient.getPet(petID);
@@ -69,11 +82,17 @@ public class PetBL {
 
     public void deletePet(int id, PetModel petModel) {
         Response response = petClient.deletePet(id);
-        Assert.assertEquals(response.getStatusCode(), 200, "Error - status code is not correct");
+
+        Assert.assertEquals(response.getStatusCode(), 404, "Error - status code is not correct");
+//        Assert.assertNull(response.jsonPath(JsonPathConfig.jsonPathConfig()));
+
     }
+
+
     public void getPetByStatus(String PetStatus){
         Response response = petClient.findPetByStatus(PetStatus);
         Assert.assertEquals(response.getStatusCode(),200,"Error - status code is not correct");
+        Assert.assertTrue(response.getBody().equals(PetModel.Status.PENDING),"Response body is not contains correct status");
     }
     public void uploadImageTest(PetModel petModel){
         Response response = petClient.uploadImage(petModel.getId());

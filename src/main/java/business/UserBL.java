@@ -26,6 +26,7 @@ public class UserBL {
     public void createNewUser(UserModel userModel) {
         Response response = userClient.createUser(userModel);
         Assert.assertEquals(response.getStatusCode(), 200, "Error - status code is not correct");
+
     }
     private List<UserModel> createListOfUsers(int countOfUsers) {
         return  IntStream.range(0, countOfUsers)
