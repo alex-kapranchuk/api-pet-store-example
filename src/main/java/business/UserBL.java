@@ -103,13 +103,11 @@ public class UserBL {
         userClient.getUser(userModel.getUsername());
         Response response2 = new UserClient().getUser(userModel.getUsername());
         Assert.assertEquals(response2.getStatusCode(), 404, "Error - user has not been deleted");
-
     }
 
     public void getLogin(UserModel userModel) {
         Response response = userClient.loginUser(userModel.getUsername(), userModel.getPassword());
         Assert.assertEquals(response.getStatusCode(), 200, "Error status code is not correct ");
-/** New useful assert */
         assertThat(response.getBody().as(ResponseAPI.class).getMessage().startsWith("logged in user session:"));
     }
 

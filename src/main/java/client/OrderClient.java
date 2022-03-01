@@ -31,5 +31,4 @@ public class OrderClient extends HttpClient{
         return given(defaultRequestSpecification)
                 .delete("/order/{id}", id);
     }
-
 }

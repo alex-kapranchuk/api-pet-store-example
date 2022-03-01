@@ -7,12 +7,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
-
 public class PetTest {
     private PetModel petModel;
     private PetBL petBL;
-
-
 
     @BeforeClass
     public void setUp() {
@@ -37,26 +34,23 @@ public class PetTest {
     public void updatePet() throws InterruptedException {
         /** Update an existing pet  */
         petBL.addNewPetToStory(petModel);
-        petBL.updatePet(petBL.updateDataOfPet(petModel));
+        petBL.updateDataOfPet(petModel);
         PetModel updatedPetModel = petBL.getPet(petModel.getId());
         Assert.assertEquals(petModel.getId(), updatedPetModel.getId(), "Error - user id is different");
         Assert.assertNotEquals(petModel.getName(), updatedPetModel.getName(), "Error - names are not different");
         petBL.deletePet(petModel.getId(), petModel);
-        // add negative test where we get some pet from invalid deleted id
     }
     @Test
     public void deletePet(){
         petBL.addNewPetToStory(petModel);
         petBL.deletePet(petModel.getId(), petModel);
-        //create list with all pets id
-        // check list to equal with deleted pet
+
     }
     @Test
     public void findPetByStatus(){
      petBL.getPetByStatus("pending");
-     // create list of pets with this parameters
     }
-    @Ignore
+
     @Test
     public void uploadImagePet(){
         petBL.addNewPetToStory(petModel);

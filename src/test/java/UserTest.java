@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import repository.UserRepository;
 
 public class UserTest {
-
     private UserModel userModel;
     private UserBL userBL;
 
@@ -49,6 +48,7 @@ public class UserTest {
         userBL.createNewUser(userModel);
         userBL.deleteUser(userModel.getUsername(), userModel);
     }
+
     @Test
     public void createUsersFromListTest(){
         userBL.createUsersFromList(3);
