@@ -28,7 +28,7 @@ public class UserBL {
     public void createNewUser(UserModel userModel) {
         Response response = userClient.createUser(userModel);
         Assert.assertEquals(response.getStatusCode(), 200, "Error - status code is not correct");
-
+        assertThat(response.getBody().as(ResponseAPI.class).getMessage().equals(String.valueOf(userModel.getId())));
     }
 
     private List<UserModel> createListOfUsers(int countOfUsers) {
@@ -42,6 +42,7 @@ public class UserBL {
         for (UserModel testModel : userModelList) {
             Response response = userClient.createUser(testModel);
             Assert.assertEquals(response.getStatusCode(), 200, "Error - status code is not correct");
+            assertThat(response.getBody().as(ResponseAPI.class).getMessage().contains("ok"));
         }
     }
 
@@ -58,6 +59,7 @@ public class UserBL {
         for (int i = 0; i < countOfUsers; i++) {
             Response response = userClient.createUser(userModelArray[i]);
             Assert.assertEquals(response.getStatusCode(), 200, "Error - status code is not correct");
+            assertThat(response.getBody().as(ResponseAPI.class).getMessage().contains("ok"));
         }
     }
 
@@ -89,16 +91,19 @@ public class UserBL {
             }
         }
         Assert.assertEquals(response.getStatusCode(), 200, "Error - status code is not correct");
+        assertThat(response.getBody().as(UserModel.class).getUsername().equals(username));
         return response.as(UserModel.class);
     }
 
     public void deleteUser(String username, UserModel userModel) {
-//        Response response = userClient.deleteUser(username);
-//        Assert.assertEquals(response.getStatusCode(), 200, "Error - status code is not correct");
-// negative test
+        Response response = userClient.deleteUser(username);
+        Assert.assertEquals(response.getStatusCode(), 200, "Error - status code is not correct");
+        assertThat(response.getBody().as(ResponseAPI.class).getMessage().equals(String.valueOf(userModel.getUsername())));
+// negative part of test
         userClient.getUser(userModel.getUsername());
         Response response2 = new UserClient().getUser(userModel.getUsername());
         Assert.assertEquals(response2.getStatusCode(), 404, "Error - user has not been deleted");
+
     }
 
     public void getLogin(UserModel userModel) {
@@ -111,5 +116,6 @@ public class UserBL {
     public void getLogout() {
         Response response = userClient.LogoutUser();
         Assert.assertEquals(response.getStatusCode(), 200, "Error status code is not correct ");
+        assertThat(response.getBody().as(ResponseAPI.class).getMessage().contains("ok"));
     }
 }
